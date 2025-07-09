@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RacingDigital.DAL;
 using RacingDigital.DAL.Models;
+using System.Security.Claims;
 
 namespace RacingDigital.Api.Controllers;
 
@@ -13,18 +13,16 @@ namespace RacingDigital.Api.Controllers;
 public class RacesController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
-    private readonly UserManager<IdentityUser> _userManager;
 
-    public RacesController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+    public RacesController(ApplicationDbContext context)
     {
         _context = context;
-        _userManager = userManager;
     }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<RaceResult>>> Get()
     {
-        var userId = _userManager.GetUserId(User);
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (string.IsNullOrEmpty(userId))
         {
             return Unauthorized();

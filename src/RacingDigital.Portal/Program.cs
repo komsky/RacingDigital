@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.Identity.Web;
+
 internal class Program
 {
     private static void Main(string[] args)
@@ -5,6 +8,9 @@ internal class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
+
+        builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+            .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAdB2C"));
 
         builder.Services.AddControllersWithViews();
 
@@ -21,12 +27,14 @@ internal class Program
         app.UseStaticFiles();
         app.UseRouting();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        app.MapControllerRoute(
+            name: "default",
+            pattern: "{controller}/{action=Index}/{id?}");
 
         app.MapFallbackToFile("index.html"); ;
 
         app.Run();
-    }
-}
+    }}

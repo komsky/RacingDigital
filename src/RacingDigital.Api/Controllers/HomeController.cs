@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using RacingDigital.Api.Models;
 using RacingDigital.DAL;
 using RacingDigital.Seeding;
+using System.Security.Claims;
 
 namespace RacingDigital.Api.Controllers;
 
@@ -13,13 +14,11 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly ApplicationDbContext _context;
-    private readonly UserManager<IdentityUser> _userManager;
 
-    public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, UserManager<IdentityUser> userManager )
+    public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
     {
         _logger = logger;
         _context = context;
-        _userManager = userManager;
     }
 
     public IActionResult Index()
@@ -52,7 +51,7 @@ public class HomeController : Controller
     {
         try
         {
-            var userID = _userManager.GetUserId(User);
+            var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var seeder = new DataSeeder(_context);
             var csvPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Seed", "races.csv");
             seeder.SeedFromCsv(csvPath, userID);
