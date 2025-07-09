@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace RacingDigital.DAL.Models
 {
     public class Horse
     {
+        [Key]
         public int ID { get; set; }
         public string Name { get; set; } = string.Empty;
         public string? Description { get; set; }
