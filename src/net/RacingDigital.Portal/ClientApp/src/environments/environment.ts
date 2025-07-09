@@ -3,7 +3,13 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  b2c: {
+    tenant: '<your-tenant>',
+    clientId: '<portal-client-id>',
+    policy: 'B2C_1_signupsignin',
+    apiScope: 'https://<your-tenant>.onmicrosoft.com/api/user_impersonation'
+  }
 };
 
 /*
