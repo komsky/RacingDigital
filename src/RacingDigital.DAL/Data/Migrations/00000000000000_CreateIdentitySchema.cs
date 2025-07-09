@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace RacingDigital.Api.Data.Migrations
+namespace RacingDigital.DAL.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {

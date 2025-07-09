@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using RacingDigital.Api.Data;
+using RacingDigital.DAL;
 
 var builder = WebApplication.CreateBuilder(args);
 
