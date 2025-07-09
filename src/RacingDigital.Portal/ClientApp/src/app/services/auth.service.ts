@@ -51,6 +51,11 @@ export class AuthService {
     return this.userManager.signoutRedirect();
   }
 
+  async logoutLocal(): Promise<void> {
+    await this.userManager.removeUser();
+    this.user = null;
+  }
+
   async getAccessToken(): Promise<string | null> {
     const user = await this.getUser();
     return user && !user.expired ? user.access_token : null;
