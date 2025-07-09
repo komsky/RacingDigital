@@ -133,5 +133,8 @@
       }
     }
   },
-  "defaultProject": "RacingDigital.Portal"
+  "defaultProject": "RacingDigital.Portal",
+  "cli": {
+    "analytics": false
+  }
 }
