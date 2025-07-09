@@ -1,0 +1,9 @@
+<h1>My Races</h1>
+
+<p *ngIf="!races"><em>Loading...</em></p>
+
+<ul *ngIf="races">
+  <li *ngFor="let race of races">
+    {{ race.raceDate }} - {{ race.raceName }} ({{ race.racecourse?.name }})
+  </li>
+</ul>
