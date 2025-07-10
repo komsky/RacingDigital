@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RacingDigital.DAL;
 using RacingDigital.DAL.Models;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace RacingDigital.Api.Controllers;
 
@@ -32,7 +35,6 @@ public class RacesController : ControllerBase
             .Include(r => r.Horse)
             .Include(r => r.Jockey)
             .Include(r => r.Racecourse)
-            .Where(r => r.Horse.IdentityUserId == userId)
             .ToListAsync();
 
         return Ok(results);

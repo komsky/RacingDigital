@@ -30,30 +30,6 @@
         </div>
     </div>
 </div>
-@section Scripts {
-    <script>
-        $(document).ready(function () {
-            // Handle form submission
-            $('form').on('submit', function (e) {
-                e.preventDefault(); // Prevent the default form submission
-                var form = $(this);
-                $.ajax({
-                    type: form.attr('method'),
-                    url: form.attr('action'),
-                    data: form.serialize(),
-                    success: function (response) {
-                        // Show the result in the modal
-                        $('#resultModal .modal-body').text(response);
-                        $('#resultModal').modal('show');
-                    },
-                    error: function () {
-                        $('#resultModal .modal-body').text('An error occurred while processing your request.');
-                        $('#resultModal').modal('show');
-                    }
-                });
-            });
-        });
-    </script>
-}
+
 
 

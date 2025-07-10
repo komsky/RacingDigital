@@ -1,72 +1,73 @@
-using System.Diagnostics;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using RacingDigital.Api.Models;
+using Microsoft.Extensions.Logging;
 using RacingDigital.DAL;
 using RacingDigital.Seeding;
+using System;
+using System.Diagnostics;
+using System.IO;
 using System.Security.Claims;
+using WebApp_OpenIDConnect_DotNet.Models;
 
-namespace RacingDigital.Api.Controllers;
-
-public class HomeController : Controller
+namespace WebApp_OpenIDConnect_DotNet.Controllers
 {
-    private readonly ILogger<HomeController> _logger;
-    private readonly ApplicationDbContext _context;
-
-    public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+    public class HomeController : Controller
     {
-        _logger = logger;
-        _context = context;
-    }
+        private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
 
-    public IActionResult Index()
-    {
-        return View();
-    }
-
-    public IActionResult Privacy()
-    {
-        return View();
-    }
-
-    //run migrations via action
-    public IActionResult Migrate()
-    {
-        try
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
-            _context.Database.Migrate();
-            return Content("Migrations applied successfully.");
+            _logger = logger;
+            _context = context;
         }
-        catch (Exception ex)
+        public IActionResult Index()
         {
-            _logger.LogError(ex, "An error occurred while applying migrations.");
-            return StatusCode(500, "An error occurred while applying migrations.");
+            return View();
         }
-    }
 
-    [Authorize]
-    public IActionResult SeedData()
-    {
-        try
+        [Authorize]
+        public IActionResult Claims()
         {
-            var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var seeder = new DataSeeder(_context);
-            var csvPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Seed", "races.csv");
-            seeder.SeedFromCsv(csvPath, userID);
-            return Content("Data seeded successfully.");
+            return View();
         }
-        catch (Exception ex)
+        public IActionResult Migrate()
         {
-            _logger.LogError(ex, "An error occurred while seeding data.");
-            return StatusCode(500, "An error occurred while seeding data.");
+            try
+            {
+                _context.Database.Migrate();
+                return Content("Migrations applied successfully.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while applying migrations.");
+                return StatusCode(500, "An error occurred while applying migrations.");
+            }
         }
-    }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        [Authorize]
+        public IActionResult SeedData()
+        {
+            try
+            {
+                var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var seeder = new DataSeeder(_context);
+                var csvPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Seed", "races.csv");
+                seeder.SeedFromCsv(csvPath, userID);
+                return Content("Data seeded successfully.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while seeding data.");
+                return StatusCode(500, "An error occurred while seeding data.");
+            }
+        }
+        [AllowAnonymous]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
+        }
     }
 }

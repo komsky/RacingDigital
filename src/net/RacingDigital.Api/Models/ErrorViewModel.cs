@@ -1,8 +1,9 @@
-namespace RacingDigital.Api.Models;
-
-public class ErrorViewModel
+namespace WebApp_OpenIDConnect_DotNet.Models
 {
-    public string? RequestId { get; set; }
+    public class ErrorViewModel
+    {
+        public string RequestId { get; set; }
 
-    public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+    }
 }
