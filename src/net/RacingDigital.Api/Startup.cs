@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -17,6 +18,7 @@ using Microsoft.Identity.Web.UI;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using RacingDigital.DAL;
 using System;
+using System.Linq;
 
 namespace WebApp_OpenIDConnect_DotNet
 {
@@ -47,12 +49,39 @@ namespace WebApp_OpenIDConnect_DotNet
                 options.HandleSameSiteCookieCompatibility();
             });
 
-            services.AddMicrosoftIdentityWebAppAuthentication(Configuration, Constants.AzureAdB2C);
+            //services.AddMicrosoftIdentityWebAppAuthentication(Configuration, Constants.AzureAdB2C);
+            //services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme, options =>
+            //{
+            //    options.ResponseType = OpenIdConnectResponseType.Code;
+            //    options.Scope.Add(options.ClientId);
+            //});
+
+
+            services.AddAuthentication(options =>
+            {
+                // this “policy” will pick Bearer when there's a Bearer header,
+                // otherwise fall back to the cookie/OIDC scheme
+                options.DefaultScheme = "B2cPolicy";
+                options.DefaultChallengeScheme = "B2cPolicy";
+            })
+            .AddPolicyScheme("B2cPolicy", "B2C Combined", options =>
+            {
+                options.ForwardDefaultSelector = context =>
+                {
+                    var auth = context.Request.Headers["Authorization"].FirstOrDefault();
+                    return auth?.StartsWith("Bearer ") == true
+                        ? JwtBearerDefaults.AuthenticationScheme
+                        : OpenIdConnectDefaults.AuthenticationScheme;
+                };
+            });
+            services.AddMicrosoftIdentityWebAppAuthentication(Configuration, Constants.AzureAdB2C); // interactive login
+            services.AddMicrosoftIdentityWebApiAuthentication(Configuration, Constants.AzureAdB2C); // API JWT validation
             services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme, options =>
             {
                 options.ResponseType = OpenIdConnectResponseType.Code;
                 options.Scope.Add(options.ClientId);
             });
+
             services.AddControllersWithViews()
                 .AddMicrosoftIdentityUI();
 
@@ -88,8 +117,10 @@ namespace WebApp_OpenIDConnect_DotNet
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseCors();
             app.UseAuthentication();
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {

@@ -14,7 +14,6 @@ namespace RacingDigital.Api.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
-[EnableCors("AllowAllOrigins")]
 public class RacesController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
