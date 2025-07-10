@@ -70,10 +70,7 @@ namespace WebApp_OpenIDConnect_DotNet
                 .AddMicrosoftIdentityUI();
 
             services.AddRazorPages();
-
             services.AddOptions();
-
-            services.ConfigureHttpJsonOptions(options =>  options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
             services.Configure<OpenIdConnectOptions>(Configuration.GetSection("AzureAdB2C"));
 

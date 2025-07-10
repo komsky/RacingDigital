@@ -108,7 +108,9 @@ namespace RacingDigital.Seeding
                     Racecourse = course,
                     Jockey = jockey,
                     Horse = horse,
-                    FinishingPosition = r.FinishingPosition
+                    FinishingPosition = r.FinishingPosition,
+                    DistanceBeaten = r.DistanceBeaten,
+                    TimeBeaten = r.TimeBeaten,
                 };
 
                 _db.RaceResults.Add(result);

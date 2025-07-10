@@ -14,5 +14,7 @@ namespace RacingDigital.DAL.Models
         public Jockey Jockey { get; set; } = new Jockey();
         public int FinishingPosition;
         public ICollection<Note> Notes { get; set; } = [];
+        public string DistanceBeaten { get;  set; } = string.Empty;
+        public string TimeBeaten { get;  set; } = string.Empty;
     }
 }
