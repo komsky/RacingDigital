@@ -12,6 +12,5 @@ namespace RacingDigital.DAL.Models
         public DateTime? DateOfBirth { get; set; }
         public string? Colour { get; set; }
         public string IdentityUserId { get; set; } = string.Empty; 
-        public IdentityUser Owner { get; set; } = new IdentityUser();
     }
 }

@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +36,7 @@ public class RacesController : ControllerBase
             .Include(r => r.Horse)
             .Include(r => r.Jockey)
             .Include(r => r.Racecourse)
+            .Include(r => r.Trainer)
             .Include(r => r.Notes)
             .ToListAsync();
 

@@ -100,13 +100,28 @@ namespace RacingDigital.Seeding
                     _db.Horses.Add(horse);
                 }
 
+
+                // 4) Trainer
+                var trainer = _db.Trainers.FirstOrDefault(x => x.Name == r.Trainer);
+                if (trainer == null)
+                {
+                    trainer = new Trainer
+                    {
+                        Name = r.Trainer
+                    };
+                    _db.Trainers.Add(trainer);
+                }
+
                 // 4) RaceResult
                 var result = new RaceResult
                 {
                     RaceName = r.Race,
                     RaceDate = raceDate,
+                    RaceTime = r.RaceTime,
                     Racecourse = course,
+                    RaceDistance = r.RaceDistance,
                     Jockey = jockey,
+                    Trainer = trainer,
                     Horse = horse,
                     FinishingPosition = r.FinishingPosition,
                     DistanceBeaten = r.DistanceBeaten,

@@ -2,17 +2,20 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RacingDigital.DAL;
 
 #nullable disable
 
-namespace RacingDigital.Api.Data.Migrations
+namespace RacingDigital.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250710121825_trainers")]
+    partial class trainers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.6");
@@ -234,6 +237,8 @@ namespace RacingDigital.Api.Data.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("IdentityUserId");
+
                     b.ToTable("Horses");
                 });
 
@@ -287,9 +292,6 @@ namespace RacingDigital.Api.Data.Migrations
                     b.Property<string>("DistanceBeaten")
                         .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("FinishingPosition")
-                        .HasColumnType("INTEGER");
 
                     b.Property<int>("HorseID")
                         .HasColumnType("INTEGER");
@@ -414,6 +416,17 @@ namespace RacingDigital.Api.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("RacingDigital.DAL.Models.Horse", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Owner")
+                        .WithMany()
+                        .HasForeignKey("IdentityUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("RacingDigital.DAL.Models.Note", b =>

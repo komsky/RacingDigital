@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace RacingDigital.DAL.Models
 {
@@ -12,9 +11,12 @@ namespace RacingDigital.DAL.Models
         public Racecourse Racecourse { get; set; } = new Racecourse();
         public Horse Horse { get; set; } = new Horse();
         public Jockey Jockey { get; set; } = new Jockey();
-        public int FinishingPosition;
+        public int FinishingPosition { get; set; } = 0;
         public ICollection<Note> Notes { get; set; } = [];
         public string DistanceBeaten { get;  set; } = string.Empty;
         public string TimeBeaten { get;  set; } = string.Empty;
+        public string RaceTime { get;  set; } = string.Empty;
+        public string RaceDistance { get;  set; } = string.Empty;
+        public Trainer Trainer { get;  set; } = new Trainer();
     }
 }

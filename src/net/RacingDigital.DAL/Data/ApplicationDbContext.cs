@@ -15,6 +15,7 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<RaceResult> RaceResults { get; set; }
     public DbSet<Racecourse> Racecourses { get; set; }
     public DbSet<Horse> Horses { get; set; }
+    public DbSet<Trainer> Trainers { get; set; }
     public DbSet<Jockey> Jockeys { get; set; }
     public DbSet<Note> Notes { get; set; }
 
