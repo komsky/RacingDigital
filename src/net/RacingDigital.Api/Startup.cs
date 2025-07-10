@@ -95,7 +95,7 @@ namespace WebApp_OpenIDConnect_DotNet
             });
             authBuilder.AddMicrosoftIdentityWebApp(Configuration, Constants.AzureAdB2C);
             // 4) Non-interactive Web API (reads the same AzureAdB2C settings, sets up Bearer)
-            authBuilder.AddMicrosoftIdentityWebApi(Configuration, Constants.AzureAdB2C);
+            authBuilder.AddMicrosoftIdentityWebApi(Configuration, "AzureAdB2C_Api");
             services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme, options =>
             {
                 options.ResponseType = OpenIdConnectResponseType.Code;
