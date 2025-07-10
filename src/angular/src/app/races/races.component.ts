@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
 import { RacesService, RaceResult } from './races.service';
 
 @Component({
@@ -6,9 +8,11 @@ import { RacesService, RaceResult } from './races.service';
   templateUrl: './races.component.html',
   styleUrls: ['./races.component.css']
 })
-export class RacesComponent implements OnInit {
-  races: RaceResult[] = [];
+export class RacesComponent implements OnInit, AfterViewInit {
+  dataSource = new MatTableDataSource<RaceResult>();
   noteContent: { [key: number]: string } = {};
+  bestJockeys: { [key: number]: string } = {};
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private racesService: RacesService) { }
 
@@ -16,12 +20,24 @@ export class RacesComponent implements OnInit {
     this.load();
   }
 
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
+  }
+
   load(): void {
-    this.racesService.getRaces().subscribe(res => this.races = res);
+    this.racesService.getRaces().subscribe(res => this.dataSource.data = res);
+  }
+
+  fetchBestJockey(horseId: number): void {
+    if (this.bestJockeys[horseId]) { return; }
+    this.racesService.getBestJockey(horseId).subscribe({
+      next: res => this.bestJockeys[horseId] = res.jockeyName,
+      error: () => this.bestJockeys[horseId] = 'No data'
+    });
   }
 
   bestJockey(horseId: number): string | undefined {
-    const results = this.races.filter(r => r.horse.id === horseId);
+    const results = this.dataSource.data.filter(r => r.horse.id === horseId);
     const wins = new Map<string, number>();
     results.forEach(r => {
       if (r.finishingPosition === 1) {
@@ -43,7 +59,7 @@ export class RacesComponent implements OnInit {
     const content = this.noteContent[raceId];
     if (!content) { return; }
     this.racesService.addNote(raceId, content).subscribe(note => {
-      const race = this.races.find(r => r.id === raceId);
+      const race = this.dataSource.data.find(r => r.id === raceId);
       if (race) {
         race.notes.push(note);
       }

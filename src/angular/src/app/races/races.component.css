@@ -1,7 +1,31 @@
 .race-list {
-  padding: 1rem;
+  padding: 0.5rem;
 }
+
+.dense-table {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.dense-table .mat-header-row,
+.dense-table .mat-row {
+  height: 36px;
+}
+
+.dense-table .mat-header-cell,
+.dense-table .mat-cell {
+  padding: 0 8px;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 600px) {
+  .dense-table .mat-header-cell,
+  .dense-table .mat-cell {
+    padding: 0 4px;
+  }
+}
+
 textarea {
   width: 100%;
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
 }

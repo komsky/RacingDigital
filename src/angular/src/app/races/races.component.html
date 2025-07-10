@@ -1,19 +1,58 @@
 <div class="race-list">
-  <table mat-table [dataSource]="races" class="mat-elevation-z8" *ngIf="races.length">
+  <input matInput placeholder="Filter" [(ngModel)]="dataSource.filter" />
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 dense-table" matSort *ngIf="dataSource.data.length">
     <ng-container matColumnDef="race">
-      <th mat-header-cell *matHeaderCellDef>Race</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Race</th>
       <td mat-cell *matCellDef="let r">{{ r.raceName }}</td>
     </ng-container>
-    <ng-container matColumnDef="horse">
-      <th mat-header-cell *matHeaderCellDef>Horse</th>
-      <td mat-cell *matCellDef="let r">{{ r.horse.name }}</td>
+    <ng-container matColumnDef="raceDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Race Date</th>
+      <td mat-cell *matCellDef="let r">{{ r.raceDate }}</td>
+    </ng-container>
+    <ng-container matColumnDef="raceTime">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Race Time</th>
+      <td mat-cell *matCellDef="let r">{{ r.raceTime }}</td>
+    </ng-container>
+    <ng-container matColumnDef="racecourse">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Racecourse</th>
+      <td mat-cell *matCellDef="let r">{{ r.racecourse.name }}</td>
+    </ng-container>
+    <ng-container matColumnDef="raceDistance">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Race Distance</th>
+      <td mat-cell *matCellDef="let r">{{ r.raceDistance }}</td>
     </ng-container>
     <ng-container matColumnDef="jockey">
-      <th mat-header-cell *matHeaderCellDef>Jockey</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Jockey</th>
       <td mat-cell *matCellDef="let r">{{ r.jockey.name }}</td>
     </ng-container>
+    <ng-container matColumnDef="trainer">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Trainer</th>
+      <td mat-cell *matCellDef="let r">{{ r.trainer.name }}</td>
+    </ng-container>
+    <ng-container matColumnDef="horse">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Horse</th>
+      <td mat-cell *matCellDef="let r">
+        <span (mouseenter)="fetchBestJockey(r.horse.id)"
+              [matTooltip]="bestJockeys[r.horse.id]"
+              matTooltipPosition="above">
+          {{ r.horse.name }}
+        </span>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="finishingPosition">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Finishing Position</th>
+      <td mat-cell *matCellDef="let r">{{ r.finishingPosition }}</td>
+    </ng-container>
+    <ng-container matColumnDef="distanceBeaten">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Distance Beaten</th>
+      <td mat-cell *matCellDef="let r">{{ r.distanceBeaten }}</td>
+    </ng-container>
+    <ng-container matColumnDef="timeBeaten">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Time Beaten</th>
+      <td mat-cell *matCellDef="let r">{{ r.timeBeaten }}</td>
+    </ng-container>
     <ng-container matColumnDef="best">
-      <th mat-header-cell *matHeaderCellDef>Best Jockey</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Best Jockey</th>
       <td mat-cell *matCellDef="let r">{{ bestJockey(r.horse.id) || '-' }}</td>
     </ng-container>
     <ng-container matColumnDef="notes">
@@ -25,7 +64,7 @@
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="['race','horse','jockey','best','notes']"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['race','horse','jockey','best','notes']"></tr>
+    <tr mat-header-row *matHeaderRowDef="['race','raceDate','raceTime','racecourse','raceDistance','jockey','trainer','horse','finishingPosition','distanceBeaten','timeBeaten']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['race','raceDate','raceTime','racecourse','raceDistance','jockey','trainer','horse','finishingPosition','distanceBeaten','timeBeaten']"></tr>
   </table>
 </div>

@@ -17,7 +17,21 @@ export interface RaceResult {
   horse: { id: number; name: string };
   jockey: { id: number; name: string };
   finishingPosition: number;
+  raceTime: string;
+  raceDistance: string;
+  trainer: { id: number; name: string };
+  distanceBeaten: string;
+  timeBeaten: string;
   notes: Note[];
+}
+
+export interface BestJockey {
+  jockeyId: number;
+  jockeyName: string;
+  starts: number;
+  wins: number;
+  winRate: number;
+  avgFinish: number;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -32,5 +46,10 @@ export class RacesService {
 
   addNote(raceId: number, content: string): Observable<Note> {
     return this.http.post<Note>(`${this.apiUrl}/${raceId}/notes`, { content });
+  }
+
+  getBestJockey(horseId: number): Observable<BestJockey> {
+    const base = this.apiUrl.replace(/\/?races$/, '');
+    return this.http.get<BestJockey>(`${base}/horses/${horseId}/best-jockey`);
   }
 }

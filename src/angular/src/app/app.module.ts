@@ -7,6 +7,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -108,6 +111,9 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     MatListModule,
     MatMenuModule,
     MatTableModule,
+    MatSortModule,
+    MatInputModule,
+    MatTooltipModule,
     FormsModule,
     HttpClientModule,
     MsalModule,
