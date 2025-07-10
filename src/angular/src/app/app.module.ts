@@ -77,6 +77,8 @@ export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
     environment.apiConfig.uri,
     environment.apiConfig.scopes
   );
+  const horsesEndpoint = environment.apiConfig.uri.replace(/\/?races$/, '') + '/horses';
+  protectedResourceMap.set(horsesEndpoint, environment.apiConfig.scopes);
 
   return {
     interactionType: InteractionType.Redirect,

@@ -21,11 +21,28 @@ export class RacesComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.dataSource.sortingDataAccessor = (item: RaceResult, property: string) => {
+      switch (property) {
+        case 'racecourse':
+          return item.racecourse.name;
+        case 'horse':
+          return item.horse.name;
+        case 'jockey':
+          return item.jockey.name;
+        case 'trainer':
+          return item.trainer.name;
+        default:
+          return (item as any)[property];
+      }
+    };
     this.dataSource.sort = this.sort;
   }
 
   load(): void {
-    this.racesService.getRaces().subscribe(res => this.dataSource.data = res);
+    this.racesService.getRaces().subscribe(res => {
+      this.dataSource.data = res;
+      this.dataSource.sort = this.sort;
+    });
   }
 
   fetchBestJockey(horseId: number): void {
