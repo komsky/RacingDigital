@@ -2,17 +2,20 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RacingDigital.DAL;
 
 #nullable disable
 
-namespace RacingDigital.Api.Data.Migrations
+namespace RacingDigital.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250710112356_notesownershipfix")]
+    partial class notesownershipfix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.6");
@@ -236,7 +239,7 @@ namespace RacingDigital.Api.Data.Migrations
 
                     b.HasIndex("IdentityUserId");
 
-                    b.ToTable("Horses", (string)null);
+                    b.ToTable("Horses");
                 });
 
             modelBuilder.Entity("RacingDigital.DAL.Models.Jockey", b =>
@@ -254,7 +257,7 @@ namespace RacingDigital.Api.Data.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Jockeys", (string)null);
+                    b.ToTable("Jockeys");
                 });
 
             modelBuilder.Entity("RacingDigital.DAL.Models.Note", b =>
@@ -277,7 +280,7 @@ namespace RacingDigital.Api.Data.Migrations
 
                     b.HasIndex("RaceResultId");
 
-                    b.ToTable("Notes", (string)null);
+                    b.ToTable("Notes");
                 });
 
             modelBuilder.Entity("RacingDigital.DAL.Models.RaceResult", b =>
@@ -310,7 +313,7 @@ namespace RacingDigital.Api.Data.Migrations
 
                     b.HasIndex("RacecourseID");
 
-                    b.ToTable("RaceResults", (string)null);
+                    b.ToTable("RaceResults");
                 });
 
             modelBuilder.Entity("RacingDigital.DAL.Models.Racecourse", b =>
@@ -325,7 +328,7 @@ namespace RacingDigital.Api.Data.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Racecourses", (string)null);
+                    b.ToTable("Racecourses");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

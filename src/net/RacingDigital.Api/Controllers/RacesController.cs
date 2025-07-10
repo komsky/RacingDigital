@@ -65,10 +65,7 @@ public class RacesController : ControllerBase
         var newNote = new Note
         {
             Content = note.Content,
-            RaceResult = raceResult,
-            RaceResultId = raceResult.ID,
-            IdentityUser = user!,
-            IdentityUserId = 0
+            RaceResultId = raceResult.ID
         };
 
         _context.Notes.Add(newNote);
