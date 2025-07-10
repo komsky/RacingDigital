@@ -7,12 +7,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { FailedComponent } from './failed/failed.component';
+import { RacesComponent } from './races/races.component';
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import {
@@ -95,6 +97,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     HomeComponent,
     ProfileComponent,
     FailedComponent,
+    RacesComponent,
   ],
   imports: [
     BrowserModule,
@@ -105,6 +108,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     MatListModule,
     MatMenuModule,
     MatTableModule,
+    FormsModule,
     HttpClientModule,
     MsalModule,
   ],

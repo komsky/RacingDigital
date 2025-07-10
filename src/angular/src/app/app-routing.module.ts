@@ -5,11 +5,17 @@ import { BrowserUtils } from '@azure/msal-browser';
 import { ProfileComponent } from './profile/profile.component';
 import { HomeComponent } from './home/home.component';
 import { FailedComponent } from './failed/failed.component';
+import { RacesComponent } from './races/races.component';
 
 const routes: Routes = [
     {
         path: 'profile',
         component: ProfileComponent,
+        canActivate: [MsalGuard]
+    },
+    {
+        path: 'races',
+        component: RacesComponent,
         canActivate: [MsalGuard]
     },
     {

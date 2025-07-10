@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RacingDigital.DAL;
@@ -13,6 +14,7 @@ namespace RacingDigital.Api.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
+[EnableCors("AllowAllOrigins")]
 public class RacesController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
@@ -35,8 +37,44 @@ public class RacesController : ControllerBase
             .Include(r => r.Horse)
             .Include(r => r.Jockey)
             .Include(r => r.Racecourse)
+            .Include(r => r.Notes)
             .ToListAsync();
 
         return Ok(results);
+    }
+
+    [HttpPost("{id}/notes")]
+    public async Task<ActionResult<Note>> AddNote(int id, [FromBody] Note note)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (string.IsNullOrEmpty(userId))
+        {
+            return Unauthorized();
+        }
+
+        var raceResult = await _context.RaceResults
+            .Include(r => r.Notes)
+            .FirstOrDefaultAsync(r => r.ID == id);
+
+        if (raceResult == null)
+        {
+            return NotFound();
+        }
+
+        var user = await _context.Users.FindAsync(userId);
+
+        var newNote = new Note
+        {
+            Content = note.Content,
+            RaceResult = raceResult,
+            RaceResultId = raceResult.ID,
+            IdentityUser = user!,
+            IdentityUserId = 0
+        };
+
+        _context.Notes.Add(newNote);
+        await _context.SaveChangesAsync();
+
+        return Ok(newNote);
     }
 }

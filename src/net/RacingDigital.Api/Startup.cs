@@ -47,7 +47,6 @@ namespace WebApp_OpenIDConnect_DotNet
                 options.HandleSameSiteCookieCompatibility();
             });
 
-            // Configuration to sign-in users with Azure AD B2C
             services.AddMicrosoftIdentityWebAppAuthentication(Configuration, Constants.AzureAdB2C);
             services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme, options =>
             {
@@ -59,9 +58,16 @@ namespace WebApp_OpenIDConnect_DotNet
 
             services.AddRazorPages();
 
-            //Configuring appsettings section AzureAdB2C, into IOptions
             services.AddOptions();
             services.Configure<OpenIdConnectOptions>(Configuration.GetSection("AzureAdB2C"));
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                    builder.AllowAnyOrigin()
+                           .AllowAnyHeader()
+                           .AllowAnyMethod());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
